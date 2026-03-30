@@ -20,15 +20,15 @@ export const handleCurrency = async (message, resultMessage, currencylist) => {
   }
 
   if (currencylist.goldlist.includes(upperMessage)) {
-    const url = 'https://www.bloomberght.com/chart/ekonomi/altin/detay/altin-ons'
+    const url = 'https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=XAUUSDT'
 
     const res = await fetch(url)
     if (!res.ok) throw new Error(`Fetch commodity price error`)
     const output = await res.json()
 
     const symbol = '$'
-    const price = Number(String(output.body.goldDetail.items.lastPrice).replace('.', '').replace(',', '.')).toFixed(2)
-    const change = `${Number(String(output.body.goldDetail.items.percentChange).replace(',', '.')).toFixed(2)}%`
+    const price = Number(output.lastPrice).toFixed(2)
+    const change = `${Number(output.priceChangePercent).toFixed(2)}%`
 
     if (resultMessage !== '') {
       resultMessage += '\n'
@@ -38,15 +38,15 @@ export const handleCurrency = async (message, resultMessage, currencylist) => {
   }
 
   if (currencylist.silverlist.includes(upperMessage)) {
-    const url = 'https://www.bloomberght.com/chart/ekonomi/borsa/piyasa/emtia/detay/gumus-ons'
+    const url = 'https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=XAGUSDT'
 
     const res = await fetch(url)
     if (!res.ok) throw new Error(`Fetch commodity price error`)
     const output = await res.json()
 
     const symbol = '$'
-    const price = Number(String(output.body.stockMarketDetail.items.lastPrice).replace(',', '.')).toFixed(2)
-    const change = `${Number(String(output.body.stockMarketDetail.items.percentChange).replace(',', '.')).toFixed(2)}%`
+    const price = Number(output.lastPrice).toFixed(2)
+    const change = `${Number(output.priceChangePercent).toFixed(2)}%`
 
     if (resultMessage !== '') {
       resultMessage += '\n'
